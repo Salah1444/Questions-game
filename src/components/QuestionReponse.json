@@ -1,0 +1,228 @@
+[
+  {
+    "category": "sport_and_leisure",
+    "id": "6384b44b83dddfb71ee5e36e",
+    "correctAnswer": "Soccer",
+    "Answers": [
+      "Motorsports",
+      "Soccer",
+      "Cricket",
+      "Rugby"
+      
+    ],
+    "question": {
+      "text": "Which sport is played at The FA Cup?"
+    },
+    "tags": [
+      "sport"
+    ],
+    "type": "text_choice",
+    "difficulty": "hard",
+    "regions": [],
+    "isNiche": false
+  },
+  {
+    "category": "arts_and_literature",
+    "id": "647638cef05ea6d6f587a142",
+    "correctAnswer": "The Grinch",
+    "Answers": [
+      "Scrooge",
+      "Darth Vader",
+      "The Grinch",
+      "The Wicked Witch of the West"
+    ],
+    "question": {
+      "text": "Which character's heart was described as being '2 sizes too small' and had reasons for his grumpiness?"
+    },
+    "tags": [
+      "arts_and_literature",
+      "literature",
+      "fictitious_characters"
+    ],
+    "type": "text_choice",
+    "difficulty": "hard",
+    "regions": [],
+    "isNiche": false
+  },
+  {
+    "category": "arts_and_literature",
+    "id": "622a1c397cc59eab6f950f56",
+    "correctAnswer": "Isaac Asimov",
+    "Answers": [
+      "Philip K. Dick",
+      "Stephen King",
+      "Isaac Asimov",
+      "Ursula K. Le Guin"
+    ],
+    "question": {
+      "text": "Which author wrote 'Lucky Starr series'?"
+    },
+    "tags": [
+      "science_fiction",
+      "literature",
+      "arts_and_literature"
+    ],
+    "type": "text_choice",
+    "difficulty": "hard",
+    "regions": [],
+    "isNiche": false
+  },
+  {
+    "category": "geography",
+    "id": "622a1c357cc59eab6f94ffd8",
+    "correctAnswer": "Australia",
+    "Answers": [
+      "Australia",
+      "Hawaii",
+      "Cuba",
+      "Madagascar"
+    ],
+    "question": {
+      "text": "Which island country lies to the East of Mauritius?"
+    },
+    "tags": [
+      "countries",
+      "geography"
+    ],
+    "type": "text_choice",
+    "difficulty": "medium",
+    "regions": [],
+    "isNiche": false
+  },
+  {
+    "category": "science",
+    "id": "6243332dcfaae40c129613c6",
+    "correctAnswer": "A Kitten",
+    "Answers": [
+      "A Chick",
+      "A Kid",
+      "A Kitten",
+      "A Farrow"
+      
+    ],
+    "question": {
+      "text": "A young beaver is known as what?"
+    },
+    "tags": [
+      "science"
+    ],
+    "type": "text_choice",
+    "difficulty": "hard",
+    "regions": [],
+    "isNiche": false
+  },
+  {
+    "category": "music",
+    "id": "625063d3e12f6dec240bdf85",
+    "correctAnswer": "Twisted Sister",
+    "Answers": [
+      "Men Without Hats",
+      "Twisted Sister",
+      "Spandau Ballet",
+      "Brownsville Station"
+    ],
+    "question": {
+      "text": "'We're Not Gonna Take It' was a one hit wonder in 1984 by which artist?"
+    },
+    "tags": [
+      "songs",
+      "one_hit_wonders",
+      "music"
+    ],
+    "type": "text_choice",
+    "difficulty": "hard",
+    "regions": [],
+    "isNiche": false
+  },
+  {
+    "category": "general_knowledge",
+    "id": "64cfa1637f0714b9a0ca5e81",
+    "correctAnswer": "A bathtub",
+    "Answers": [
+      "A bathtub",
+      "A shower",
+      "A sink",
+      "A toilet"
+      
+    ],
+    "question": {
+      "text": "What type of item might you have as a clawfoot in your bathroom?"
+    },
+    "tags": [
+      "furniture"
+    ],
+    "type": "text_choice",
+    "difficulty": "medium",
+    "regions": [],
+    "isNiche": false
+  },
+  {
+    "category": "history",
+    "id": "62611f6d4b176d54800e3d58",
+    "correctAnswer": "1945",
+    "Answers": [
+      "1937",
+      "1941",
+      "1945",
+      "1943"
+      
+    ],
+    "question": {
+      "text": "In which year was the end of WWII?"
+    },
+    "tags": [
+      "events",
+      "wars",
+      "world_war_2",
+      "history"
+    ],
+    "type": "text_choice",
+    "difficulty": "medium",
+    "regions": [],
+    "isNiche": false
+  },
+  {
+    "category": "society_and_culture",
+    "id": "639c9dbf929b90846f2fc9af",
+    "correctAnswer": "Tattooing",
+    "Answers": [
+      "Eating shellfish",
+      "Fasting",
+      "Dancing",
+      "Tattooing"
+    ],
+    "question": {
+      "text": "Which of the following is believed to be a sin in Islam?"
+    },
+    "tags": [
+      "islam",
+      "religion",
+      "society_and_culture"
+    ],
+    "type": "text_choice",
+    "difficulty": "medium",
+    "regions": [],
+    "isNiche": false
+  },
+  {
+    "category": "arts_and_literature",
+    "id": "622a1c397cc59eab6f950f60",
+    "correctAnswer": "Arthur Conan Doyle",
+    "Answers": [
+      "Agatha Christie",
+      "Oscar Wilde",
+      "George Orwell",
+      "Arthur Conan Doyle"
+    ],
+    "question": {
+      "text": "Which author wrote 'The Adventure of the Red-Headed League'?"
+    },
+    "tags": [
+      "arts_and_literature"
+    ],
+    "type": "text_choice",
+    "difficulty": "hard",
+    "regions": [],
+    "isNiche": false
+  }
+]
