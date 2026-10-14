@@ -1,7 +1,7 @@
 import "./App.css";
 import data from "./data/QuestionReponse.json";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 function App() {
   const [questionsCount, setQuestionCount] = useState(0);
@@ -11,7 +11,7 @@ function App() {
   const [yourCorrectIn, setYourCorrectIn] = useState(0);
   const [loading, setLoading] = useState(false);
 
-  const ChangeQuestion = () => {
+  const ChangeQuestion = useCallback(() => {
     let rightValueQ = Math.floor(Math.random() * data.length);
     if (rightValueQ === questionsCount) {
       rightValueQ = (rightValueQ + 1) % data.length;
@@ -21,7 +21,7 @@ function App() {
     setQuestion(data[rightValueQ].question.text);
     setIsCorrect(null);
     setScore((prev)=>prev+1)
-  };
+  }, [questionsCount]);
 
   const Verification = (answer) => {
     setLoading(true); 
