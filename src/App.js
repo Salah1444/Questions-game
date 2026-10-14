@@ -1,16 +1,16 @@
 import "./App.css";
-import data from "./components/QuestionReponse.json";
+import data from "./data/QuestionReponse.json";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useEffect, useState } from "react";
 
 function App() {
   const [questionsCount, setQuestionCount] = useState(0);
-  const [question, setQuestion] = useState("");
+  const [question, setQuestion] = useState(data[questionsCount].question.text);
   const [score, setScore] = useState(1);
   const [isCorrect, setIsCorrect] = useState(null);
   const [yourCorrectIn, setYourCorrectIn] = useState(0);
   const [loading, setLoading] = useState(false);
-  
+
   const ChangeQuestion = () => {
     let rightValueQ = Math.floor(Math.random() * data.length);
     if (rightValueQ === questionsCount) {
