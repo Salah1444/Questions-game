@@ -1,24 +1,235 @@
-.App {
-  text-align: center;
-}
-.container-fluid{
-  height: 100vh;
-}
-.card{
-  position: relative;
-  width:500px;
-  height: 70vh;
-}
-.NombreQuestion{
-  position: absolute;
-  right: 50px;
-  top: 50px;
-  padding:16px 23px;
-  border-radius: 50%;
-  color: white;
-  font-weight: 700;
-}
-li{
-  list-style: none;
+:root {
+  --bg-1: #0f172a;
+  --bg-2: #312e81;
+  --accent: #8b5cf6;
+  --accent-2: #ec4899;
+  --ok: #22c55e;
+  --ko: #ef4444;
 }
 
+body {
+  margin: 0;
+  font-family: "Poppins", "Segoe UI", system-ui, sans-serif;
+}
+
+.banner {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  color: #fff;
+  background-image :url('./assets/background.webp') ;
+  background-size: cover;
+  background-repeat: no-repeat;
+  /* Want an image? Replace with:
+     background: linear-gradient(rgba(15,23,42,.8), rgba(15,23,42,.8)),
+                 url("YOUR_IMAGE_LINK") center/cover fixed; */
+}
+
+/* ---------- Card ---------- */
+.quiz-card {
+  width: 100%;
+  max-width: 640px;
+  padding: 2rem;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.45);
+  animation: pop 0.5s ease;
+}
+
+@keyframes pop {
+  from { opacity: 0; transform: translateY(20px) scale(0.97); }
+  to   { opacity: 1; transform: none; }
+}
+
+.quiz-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.badge-pill {
+  padding: 0.35rem 0.9rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+}
+.badge-pill.ghost {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+/* ---------- Progress ---------- */
+.progress-track {
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+}
+.progress-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  transition: width 0.5s ease;
+}
+
+/* ---------- Question ---------- */
+.question-text {
+  font-weight: 700;
+  line-height: 1.4;
+  margin-bottom: 1.5rem;
+  animation: slide 0.4s ease;
+}
+@keyframes slide {
+  from { opacity: 0; transform: translateX(-15px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ---------- Answers ---------- */
+.answers {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.answer-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  width: 100%;
+  padding: 0.85rem 1rem;
+  text-align: left;
+  color: #fff;
+  font-weight: 500;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.07);
+  cursor: pointer;
+  transition: transform 0.2s, background 0.2s, border-color 0.2s, box-shadow 0.2s;
+  animation: slide 0.4s ease both;
+}
+.answer-btn:nth-child(2) { animation-delay: 0.05s; }
+.answer-btn:nth-child(3) { animation-delay: 0.1s; }
+.answer-btn:nth-child(4) { animation-delay: 0.15s; }
+
+.answer-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  background: rgba(139, 92, 246, 0.25);
+  border-color: var(--accent);
+  box-shadow: 0 8px 20px rgba(139, 92, 246, 0.3);
+}
+
+.answer-letter {
+  flex: 0 0 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  font-weight: 700;
+  background: rgba(255, 255, 255, 0.14);
+}
+.answer-text { flex: 1; }
+.mark { font-size: 1.2rem; font-weight: 700; }
+
+.answer-btn:disabled { cursor: default; }
+.answer-btn.correct {
+  background: rgba(34, 197, 94, 0.3);
+  border-color: var(--ok);
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.25);
+}
+.answer-btn.correct .answer-letter { background: var(--ok); }
+.answer-btn.wrong {
+  background: rgba(239, 68, 68, 0.3);
+  border-color: var(--ko);
+  animation: shake 0.4s;
+}
+.answer-btn.wrong .answer-letter { background: var(--ko); }
+.answer-btn.dimmed { opacity: 0.45; }
+
+@keyframes shake {
+  25% { transform: translateX(-6px); }
+  75% { transform: translateX(6px); }
+}
+
+/* ---------- Footer ---------- */
+.quiz-footer {
+  margin-top: 1.5rem;
+  min-height: 44px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.skip-btn {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.65);
+  font-weight: 600;
+  transition: color 0.2s;
+}
+.skip-btn:hover { color: #fff; }
+
+.feedback {
+  padding: 0.55rem 1.2rem;
+  border-radius: 12px;
+  font-weight: 600;
+  animation: pop 0.3s ease;
+}
+.feedback.ok { background: rgba(34, 197, 94, 0.25); color: #86efac; }
+.feedback.ko { background: rgba(239, 68, 68, 0.25); color: #fca5a5; }
+
+/* ---------- Result ---------- */
+.quiz-card.result { padding: 2.5rem 2rem; }
+.result-emoji { font-size: 3.5rem; }
+
+.score-ring {
+  --size: 190px;
+  width: var(--size);
+  height: var(--size);
+  margin: 1.5rem auto;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: conic-gradient(var(--ko) var(--percent), rgba(255, 255, 255, 0.12) 0);
+}
+.score-ring[data-good="true"] {
+  background: conic-gradient(var(--ok) var(--percent), rgba(255, 255, 255, 0.12) 0);
+}
+.score-ring-inner {
+  width: calc(var(--size) - 28px);
+  height: calc(var(--size) - 28px);
+  border-radius: 50%;
+  background: #1e1b4b;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.score-number { font-size: 2.6rem; font-weight: 800; line-height: 1; }
+
+.result-message {
+  font-size: 1.15rem;
+  margin-bottom: 1.5rem;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.btn-main {
+  padding: 0.85rem 2.2rem;
+  border: none;
+  border-radius: 14px;
+  font-weight: 700;
+  color: #fff;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  box-shadow: 0 10px 25px rgba(139, 92, 246, 0.4);
+  transition: transform 0.2s;
+}
+.btn-main:hover { transform: translateY(-2px) scale(1.03); }
+
+@media (max-width: 480px) {
+  .quiz-card { padding: 1.25rem; border-radius: 18px; }
+}

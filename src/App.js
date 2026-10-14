@@ -1,101 +1,162 @@
 import "./App.css";
 import data from "./data/QuestionReponse.json";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+
+const TOTAL = Math.min(10, data.length);
+const LETTERS = ["A", "B", "C", "D", "E", "F"];
+const SKIPPED = "__skipped__";
+
+const pickQuestions = () =>
+  [...data].sort(() => Math.random() - 0.5).slice(0, TOTAL);
+
+const same = (a, b) =>
+  String(a).trim().toLowerCase() === String(b).trim().toLowerCase();
 
 function App() {
-  const [questionsCount, setQuestionCount] = useState(0);
-  const [question, setQuestion] = useState(data[questionsCount].question.text);
-  const [score, setScore] = useState(1);
-  const [isCorrect, setIsCorrect] = useState(null);
-  const [yourCorrectIn, setYourCorrectIn] = useState(0);
-  const [loading, setLoading] = useState(false);
+  const [questions, setQuestions] = useState(pickQuestions);
+  const [current, setCurrent] = useState(0);
+  const [selected, setSelected] = useState(null);
+  const [correctCount, setCorrectCount] = useState(0);
+  const [finished, setFinished] = useState(false);
 
-  const ChangeQuestion = useCallback(() => {
-    let rightValueQ = Math.floor(Math.random() * data.length);
-    if (rightValueQ === questionsCount) {
-      rightValueQ = (rightValueQ + 1) % data.length;
-      setScore((prev)=>prev+1);
-    }
-    setQuestionCount(rightValueQ);
-    setQuestion(data[rightValueQ].question.text);
-    setIsCorrect(null);
-    setScore((prev)=>prev+1)
-  }, [questionsCount]);
+  const q = questions[current];
+  const answered = selected !== null;
 
-  const Verification = (answer) => {
-    setLoading(true); 
-    if (answer.innerText.toLowerCase() === data[questionsCount].correctAnswer.toLowerCase()) {
-      setIsCorrect(true);
-      setYourCorrectIn((prev)=>prev + 1);
-    } else {
-      setIsCorrect(false);
+  // Move on automatically after an answer
+  useEffect(() => {
+    if (!answered) return;
+    const timer = setTimeout(() => {
+      if (current + 1 >= TOTAL) {
+        setFinished(true);
+      } else {
+        setCurrent((c) => c + 1);
+        setSelected(null);
+      }
+    }, 1500);
+    return () => clearTimeout(timer);
+  }, [answered, current]);
+
+  const choose = (answer) => {
+    if (answered) return;
+    setSelected(answer);
+    if (answer !== SKIPPED && same(answer, q.correctAnswer)) {
+      setCorrectCount((c) => c + 1);
     }
   };
-  useEffect(() => {
-    if (loading) {
-      const timer = setTimeout(() => {
-        setLoading(false);
-        ChangeQuestion(); 
-      }, 2000);
-      return () => clearTimeout(timer);
-    }
-  }, [loading,ChangeQuestion]);
 
-  return (
-    <div className="container-fluid bg-secondary d-flex justify-content-center text-white w-100 min-vh-100">
-      {score>=10 ?
-      (
-        <div className="card " >
-          <div className="card card-body bg-warning" >
-            <h2 className="text-center">Resultat :</h2>
-            <div className={`alert ${yourCorrectIn<5 ? "alert-danger":"alert-success"} text-dark p-5 mt-5 d-flex justify-content-center fw-bold text-dark h1`}>{yourCorrectIn}/10</div>
-            <h1 className="text-center ">{yourCorrectIn>5 ? "You Are Great":"Have More luck in the Next Chance "}</h1>
-             <button className="btn btn-primary mt-5 p-3" onClick={()=>{setScore(0);setYourCorrectIn(0)}}>Try Again</button>
-        </div>
-        </div>
-      ) 
-      :
-      loading ? (
-        <div className="d-flex flex-column align-items-center justify-content-center w-100 mt-4">
-          <div className="spinner-border text-primary mb-2" role="status"></div>
-          <span>Loading...</span>
-          {isCorrect !== null && (
-            <div className={`alert mt-3 ${isCorrect ? "alert-success" : "alert-danger"}`}>
-              {isCorrect
-                ? "Your answer was correct!"
-                : `Wrong! The correct answer is: ${data[questionsCount].correctAnswer}`}
+  const restart = () => {
+    setQuestions(pickQuestions());
+    setCurrent(0);
+    setSelected(null);
+    setCorrectCount(0);
+    setFinished(false);
+  };
+
+  const buttonState = (item) => {
+    if (!answered) return "";
+    if (same(item, q.correctAnswer)) return "correct";
+    if (item === selected) return "wrong";
+    return "dimmed";
+  };
+
+  /* ---------- Result screen ---------- */
+  if (finished) {
+    const percent = Math.round((correctCount / TOTAL) * 100);
+    const great = percent >= 60;
+    return (
+      <div className="banner">
+        <div className="quiz-card result text-center">
+          <div className="result-emoji">{percent >= 80 ? "🏆" : great ? "🎉" : "💪"}</div>
+          <h2 className="fw-bold">Result</h2>
+
+          <div
+            className="score-ring"
+            style={{ "--percent": `${percent}%` }}
+            data-good={great}
+          >
+            <div className="score-ring-inner">
+              <span className="score-number">
+                {correctCount}/{TOTAL}
+              </span>
+              <small>{percent}%</small>
             </div>
+          </div>
+
+          <p className="result-message">
+            {percent >= 80
+              ? "Excellent! You really know your stuff."
+              : great
+              ? "Great job, keep it up!"
+              : "Better luck next time, you can do it!"}
+          </p>
+
+          <button className="btn-main" onClick={restart}>
+            ↻ Try Again
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  /* ---------- Question screen ---------- */
+  return (
+    <div className="banner">
+      <div className="quiz-card">
+        <div className="quiz-top">
+          <span className="badge-pill">
+            Question {current + 1} / {TOTAL}
+          </span>
+          <span className="badge-pill ghost">✔ {correctCount}</span>
+        </div>
+
+        <div className="progress-track">
+          <div
+            className="progress-fill"
+            style={{ width: `${((current + (answered ? 1 : 0)) / TOTAL) * 100}%` }}
+          />
+        </div>
+
+        <h4 className="question-text" key={current}>
+          {q.question.text || "Are You Ready?"}
+        </h4>
+
+        <div className="answers" key={`a-${current}`}>
+          {q.Answers.map((item, index) => (
+            <button
+              key={index}
+              disabled={answered}
+              onClick={() => choose(item)}
+              className={`answer-btn ${buttonState(item)}`}
+            >
+              <span className="answer-letter">{LETTERS[index]}</span>
+              <span className="answer-text">{item}</span>
+              {answered && same(item, q.correctAnswer) && <span className="mark">✓</span>}
+              {answered && item === selected && !same(item, q.correctAnswer) && (
+                <span className="mark">✗</span>
+              )}
+            </button>
+          ))}
+        </div>
+
+        <div className="quiz-footer">
+          {answered ? (
+            <div
+              className={`feedback ${
+                selected !== SKIPPED && same(selected, q.correctAnswer) ? "ok" : "ko"
+              }`}
+            >
+              {selected !== SKIPPED && same(selected, q.correctAnswer)
+                ? "🎯 Correct!"
+                : `The correct answer is: ${q.correctAnswer}`}
+            </div>
+          ) : (
+            <button className="skip-btn" onClick={() => choose(SKIPPED)}>
+              I Don't Know →
+            </button>
           )}
         </div>
-      ) : (
-        <div className="card mt-5">
-          <div className="card-header text-center fw-bold">
-            {score} <sup>QUESTION</sup> / 10
-          </div>
-          <div className="card-body bg-warning">
-            <h5 className="card-title alert">{question || "Are You Ready?"}</h5>
-            <ul className="list-group">
-              {data[questionsCount].Answers.map((item, index) => (
-                <li key={index}>
-                  <button
-                    onClick={(e) => Verification(e.target)}
-                    className="btn btn-danger w-100 m-2"
-                  >
-                    {item}
-                  </button>
-                </li>
-              ))}
-              <li>
-                <button className="btn btn-secondary w-100 m-2" onClick={ChangeQuestion}>
-                  I Don't Know
-                </button>
-              </li>
-            </ul>
-          </div>
-        </div>
-      )
-    }
+      </div>
     </div>
   );
 }
