@@ -40,7 +40,7 @@ function App() {
       }, 2000);
       return () => clearTimeout(timer);
     }
-  }, [loading]);
+  }, [loading,ChangeQuestion]);
 
   return (
     <div className="container-fluid bg-secondary d-flex justify-content-center text-white w-100 min-vh-100">
